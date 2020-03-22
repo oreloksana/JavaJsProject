@@ -1,13 +1,20 @@
 package sample;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
-    public class Controller {
+import javax.swing.*;
+
+public class Controller {
         @FXML
         private ResourceBundle resources;
 
@@ -27,9 +34,40 @@ import javafx.scene.control.TextField;
         private Button loginSignUpButton;
         @FXML
         void initialize(){
+
             authSignInButton.setOnAction(event ->{
-                System.out.println("U pushed button Sign In");
+                String loginText = login.getText().trim();
+                String loginPassword = password.getText().trim();
+
+                if (!loginText.equals("") && !loginPassword.equals(""))
+                    loginUser(loginText, loginPassword);
+                else
+                    System.out.println("Login and password is empty");
+
             });
-        };
+
+            loginSignUpButton.setOnAction(event ->{
+                loginSignUpButton.getScene().getWindow().hide();
+
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("signUp.fxml"));
+
+                try {
+                    loader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                Parent root = loader.getRoot();
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.showAndWait();
+            });
+        }
+
+    private void loginUser(String loginText, String loginPassword) {
+    }
+
+    ;
     }
 
